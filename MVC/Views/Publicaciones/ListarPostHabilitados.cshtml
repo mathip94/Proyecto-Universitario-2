@@ -1,0 +1,92 @@
+﻿@using Dominio;
+
+@{
+    ViewData["Title"] = "ListarPostHabilitados";
+}
+
+<h1>Posts</h1>
+
+<br />
+
+<form class="row row-cols-lg-auto g-3 align-items-center" action="~/Publicaciones/FiltrarPublicaciones" method="get">
+    <div class="col-12">
+        <input type="text" class="form-control" placeholder="Palabra Clave" name="palabra">
+    </div>
+    <div class="col-12">
+        <input type="number" class="form-control" placeholder="Valor de aceptacion minimo" name="aceptacion">
+    </div>
+    <div class="col-12">
+        <button class="btn btn-secondary" type="submit">Filtrar</button>
+    </div>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+
+@if (ViewBag.Posts == null || ViewBag.Posts.Count == 0)
+{
+    <div class="alert alert-danger">No hay posts en el sistema</div>
+}
+else
+{
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Contenido</th>
+                <th>Autor</th>
+                <th>Foto</th>
+                <th>Dar Like</th>
+                <th>Dar Dislike</th>
+                <th>Valor de Aceptacion</th>
+                <th>Ver Comentarios</th>
+                <th>Comentar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Post p in ViewBag.Posts)
+            {
+                <tr>
+                    <td>@p.Titulo</td>
+                    <td>@p.Texto</td>
+                    <td>@p.Autor.Nombre</td>
+                    <td><img width="200" height="200" src="~/images/@p.Imagen" /></td>
+                    <td>
+                        <form method="post" action="~/Publicaciones/DarLikePost">
+                            <input type="text" name="id" value="@p.Id" hidden />
+                            <input class="btn btn-success" type="submit" value="Like" />
+                        </form>
+                        <p>@p.ObtenerCantidadDeLikes()</p>
+                    </td>
+                    <td>
+                        <form method="post" action="~/Publicaciones/DarDislikePost">
+                            <input type="text" name="id" value="@p.Id" hidden />
+                            <input class="btn btn-success" type="submit" value="Dislike" />
+                        </form>
+                        <p>@p.ObtenerCantidadDeDislikes()</p>
+                    </td>
+                    <td>@p.CalcularValorDeAceptacion()</td>
+                    <td><a class="btn btn-primary" href="~/Publicaciones/VerComentarios?id=@p.Id">Ver Comentarios</a>&nbsp;&nbsp;</td>
+                    <td>
+                        <form method="post" action="~/Publicaciones/Comentar">
+                            <input type="text" name="id" value="@p.Id" hidden />
+                            <input type="text" name="titulo" placeholder="Ingrese el titulo" style="width: 200px"/> <br>
+                            <input type="text" name="comentario" placeholder="Comenta aqui" style="width: 200px"/>
+                            <input class="btn btn-success" type="submit" value="Comentar" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

@@ -1,0 +1,58 @@
+﻿@using Dominio;
+
+@{
+    ViewData["Title"] = "ListarSolicitudesAmistad";
+}
+
+<h1>Solicitudes de Amistad</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+@if (ViewBag.Solicitudes == null || ViewBag.Solicitudes.Count == 0)
+{
+    <div class="alert alert-danger">No se encontraron invitaciones en el sistema</div>
+}
+else
+{
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre Solicitante</th>
+                <th>Fecha de envio</th>
+                <th>Aceptar Solicitud</th>
+                <th>Rechazar Solicitud</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Invitacion i in ViewBag.Solicitudes)
+            {
+                <tr>
+                    <td>@i.MSolicitante.Nombre</td>
+                    <td>@i.FechaSolicitud.ToShortDateString()</td>
+                    <td>
+                        <form method="post" action="~/Invitaciones/AceptarSolicitud">
+                            <input type="text" name="id" value="@i.Id" hidden />
+                            <input class="btn btn-success" type="submit" value="Aceptar Solicitud" />
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="~/Invitaciones/RechazarSolicitud">
+                            <input type="text" name="id" value="@i.Id" hidden />
+                            <input class="btn btn-danger" type="submit" value="Rechazar Solicitud" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

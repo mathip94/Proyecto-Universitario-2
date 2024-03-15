@@ -1,0 +1,65 @@
+﻿@using Dominio;
+
+@{
+    ViewData["Title"] = "ListaPosts";
+}
+
+<h1>Lista Posts</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+@if (ViewBag.Posts == null || ViewBag.Posts.Count == 0)
+{
+    <div class="alert alert-danger">No se encontraron posts en el sistema</div>
+}
+else
+{
+    <br />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre Autor</th>
+                <th>Titulo</th>
+                <th>Contenido</th>
+                <th>Fecha de Publicacion</th>
+                <th>Bannear Post</th>
+                <th>Desbannear Post</th>
+                <th>Esta Banneado?</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Post p in ViewBag.Posts)
+            {
+                <tr>
+                    <td>@p.Autor.Nombre</td>
+                    <td>@p.Titulo</td>
+                    <td>@p.Texto</td>
+                    <td>@p.FechaPublicacion.ToShortDateString()</td>
+                    <td>
+                        <form method="post" action="~/Publicaciones/BannearPost">
+                            <input type="text" name="id" value="@p.Id" hidden />
+                            <input class="btn btn-success" type="submit" value="Bannear Post" />
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="~/Publicaciones/DesbannearPost">
+                            <input type="text" name="id" value="@p.Id" hidden />
+                            <input class="btn btn-success" type="submit" value="Desbannear Post" />
+                        </form>
+                    </td>
+                    <td>@p.EstaCensurado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

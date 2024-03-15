@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+<div class="card" style="width: 20rem; margin: 70px auto;">
+    <div class="card-header">
+        <h3>Login</h3>
+    </div>
+    <div class="card-body">
+        <form action="~/Usuarios/procesarlogin" method="post">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" name="email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="pass" class="form-control" />
+            </div>
+            <br />
+            <input type="submit" value="Ingresar" class="btn btn-secondary" />
+            <a class="btn btn-primary" href="~/Usuarios/RegistroUsuario">Registrarse</a>
+        </form>
+    </div>
+</div>
+
+<br />

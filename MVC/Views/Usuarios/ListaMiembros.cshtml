@@ -1,0 +1,64 @@
+﻿@using Dominio;
+
+@{
+    ViewData["Title"] = "ListaMiembros";
+}
+
+<h1>Lista Miembros</h1>
+
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+@if (ViewBag.Miembros == null || ViewBag.Miembros.Count == 0)
+{
+    <div class="alert alert-danger">No miembros en el sistema</div>
+}
+else
+{
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Email</th>
+                <th>Bannear Miembro</th>
+                <th>Desbannear Miembro</th>
+                <th>Esta Banneado?</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Miembro m in ViewBag.Miembros)
+            {
+                <tr>
+                    <td>@m.Nombre</td>
+                    <td>@m.Apellido</td>
+                    <td>@m.FechaNacimiento.ToShortDateString()</td>
+                    <td>@m.Email</td>
+                    <td>
+                        <form method="post" action="~/Usuarios/BannearMiembro">
+                            <input type="text" name="id" value="@m.Email" hidden />
+                            <input class="btn btn-success" type="submit" value="Bannear Usuario" />
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="~/Usuarios/DesbannearMiembro">
+                            <input type="text" name="id" value="@m.Email" hidden />
+                            <input class="btn btn-success" type="submit" value="Desbannear Usuario" />
+                        </form>
+                    </td>
+                    <td>@m.EstaBanneado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

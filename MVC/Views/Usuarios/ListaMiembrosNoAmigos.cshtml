@@ -1,0 +1,54 @@
+﻿@using Dominio;
+
+@{
+    ViewData["Title"] = "ListaMiembrosNoAmigos";
+}
+
+<h1>Lista de posibles amigos</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+@if (ViewBag.Miembros == null || ViewBag.Miembros.Count == 0)
+{
+    <div class="alert alert-danger">No miembros en el sistema</div>
+}
+else
+{
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Email</th>
+                <th>Enviar Solicitud de Amistad</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Miembro m in ViewBag.Miembros)
+            {
+                <tr>
+                    <td>@m.Nombre</td>
+                    <td>@m.Apellido</td>
+                    <td>@m.FechaNacimiento.ToShortDateString()</td>
+                    <td>@m.Email</td>
+                    <td>
+                        <form method="post" action="~/Usuarios/EnviarSolicitudAmistad">
+                            <input type="text" name="emailReceptor" value="@m.Email" hidden />
+                            <input class="btn btn-success" type="submit" value="Enviar Solicitud de Amistad" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,50 @@
+﻿@using Dominio;
+
+@{
+    ViewData["Title"] = "PublicacionesFiltradas";
+}
+
+<h1>Publicaciones Filtradas</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success">@ViewBag.Exito</div>
+}
+
+@if (ViewBag.Publicaciones == null || ViewBag.Publicaciones.Count == 0)
+{
+    <div class="alert alert-danger">No se encontraron publicaciones que cumplieran el criterio</div>
+}
+else
+{
+    <br />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre Autor</th>
+                <th>Titulo</th>
+                <th>Contenido</th>
+                <th>Fecha de Publicacion</th>
+                <th>Tipo de Publicacion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Publicacion p in ViewBag.Publicaciones)
+            {
+                <tr>
+                    <td>@p.Autor.Nombre</td>
+                    <td>@p.Titulo</td>
+                    <td>@p.Texto</td>
+                    <td>@p.FechaPublicacion.ToShortDateString()</td>
+                    <td>@p.TipoPublicaicon()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }

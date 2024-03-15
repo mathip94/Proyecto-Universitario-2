@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @if (Context.Session.GetString("email") == null)
+    {
+        <h1 class="display-4">Bienvenido Anonimo</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Bienvenido @Context.Session.GetString("email")</h1>
+    }
+</div>

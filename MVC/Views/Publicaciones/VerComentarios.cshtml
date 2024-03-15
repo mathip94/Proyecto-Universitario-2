@@ -1,0 +1,56 @@
+﻿@using Dominio;
+
+@{
+    ViewData["Title"] = "VerComentarios";
+}
+
+<h1>Comentarios</h1>
+
+
+@if (ViewBag.Post == null)
+{
+    <div class="alert alert-danger">Error. No encontramos el Post que buscas</div>
+}
+else
+{
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Contenido</th>
+                <th>Autor</th>
+                <th>Dar Like</th>
+                <th>Dar Dislike</th>
+                <th>Valor de Aceptacion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Comentario c in ViewBag.Post.Comentarios)
+            {
+                <tr>
+                    <td>@c.Titulo</td>
+                    <td>@c.Texto</td>
+                    <td>@c.Autor.Nombre</td>
+                    <td>
+                        <form method="post" action="~/Publicaciones/DarLikeComentario">
+                            <input type="text" name="idc" value="@c.Id" hidden />
+                            <input type="text" name="idp" value="@ViewBag.Post.Id" hidden>
+                            <input class="btn btn-success" type="submit" value="Like" />
+                        </form>
+                        <p>@c.ObtenerCantidadDeLikes()</p>
+                    </td>
+                    <td>
+                        <form method="post" action="~/Publicaciones/DarDislikeComentario">
+                            <input type="text" name="idc" value="@c.Id" hidden />
+                            <input type="text" name="idp" value="@ViewBag.Post.Id" hidden>
+                            <input class="btn btn-success" type="submit" value="Dislike" />
+                        </form>
+                        <p>@c.ObtenerCantidadDeDislikes()</p>
+                    </td>
+                    <td>@c.CalcularValorDeAceptacion()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

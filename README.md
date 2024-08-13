@@ -1,1 +1,1 @@
-You can try the site on http://socialnetworkp2.somee.com/ 
+It is a simplified model of a social network, does not use a database.
